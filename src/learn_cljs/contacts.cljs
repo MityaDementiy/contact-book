@@ -2,6 +2,10 @@
   (:require
    [goog.dom :as gdom]))
 
+(def contact-list [])
+(defn make-contact [contact]
+  (select-keys contact [:first-name :last-name :email :address]))
+
 
 
 ;; specify reload hook with ^:after-load metadata
