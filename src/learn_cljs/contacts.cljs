@@ -7,8 +7,13 @@
 (defn make-address [address]
   (select-keys address [:street :city :state :country :postal]))
 
+(defn maybe-set-address [contact]
+  (if (:address contact) 
+    (update contact :address make-address)
+    contact))
+
 (defn make-contact [contact]
-  (let [clean-contact (select-keys contact [:first-name :last-name :email])]
-    (if-let [address (:address contact)]
-      (assoc clean-contact :address (make-address address))
-      clean-contact)))
+  (-> contact
+      (select-keys [:first-name :last-name :email :address])
+      (maybe-set-address)))
+
