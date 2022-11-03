@@ -21,3 +21,9 @@
 (defn add-contact [contact-list input]
   (conj contact-list
         (make-contact input)))
+
+(defn remove-contact [contact-list idx]
+  (vec 
+   (concat
+    (subvec contact-list 0 idx)
+    (subvec contact-list (inc idx)))))
