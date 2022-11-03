@@ -8,7 +8,7 @@
   (select-keys address [:street :city :state :country :postal]))
 
 (defn maybe-set-address [contact]
-  (if (:address contact) 
+  (if (:address contact)
     (update contact :address make-address)
     contact))
 
@@ -23,10 +23,10 @@
         (make-contact input)))
 
 (defn remove-contact [contact-list idx]
-  (vec 
-   (concat
-    (subvec contact-list 0 idx)
-    (subvec contact-list (inc idx)))))
+  (vec
+    (concat
+     (subvec contact-list 0 idx)
+     (subvec contact-list (inc idx)))))
 
 (defn replace-contact [contact-list idx input]
   (assoc contact-list idx (make-contact input)))
