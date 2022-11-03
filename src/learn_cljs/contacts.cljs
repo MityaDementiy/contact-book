@@ -25,8 +25,8 @@
 (defn remove-contact [contact-list idx]
   (vec
     (concat
-     (subvec contact-list 0 idx)
-     (subvec contact-list (inc idx)))))
+      (subvec contact-list 0 idx)
+      (subvec contact-list (inc idx)))))
 
 (defn replace-contact [contact-list idx input]
   (assoc contact-list idx (make-contact input)))
