@@ -17,3 +17,7 @@
       (select-keys [:first-name :last-name :email :address])
       (maybe-set-address)))
 
+
+(defn add-contact [contact-list input]
+  (conj contact-list
+        (make-contact input)))
