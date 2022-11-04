@@ -1,5 +1,5 @@
 start:
-	clj -A:fig:build
+	clj -A:fig:start
 
 clean:
 	rm -rf target/public

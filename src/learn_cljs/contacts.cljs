@@ -1,6 +1,9 @@
-(ns ^:figwheel-hooks learn-cljs.contacts
-  (:require
-   [goog.dom :as gdom]))
+(ns learn-cljs.contacts
+  (:require-macros [hiccups.core :as hiccups])
+  (:require [hiccups.runtime]
+            [goog.dom :as gdom]
+            [goog.events :as gevents]
+            [clojure.string :as str]))
 
 (def contact-list [])
 
@@ -30,3 +33,5 @@
 
 (defn replace-contact [contact-list idx input]
   (assoc contact-list idx (make-contact input)))
+
+
