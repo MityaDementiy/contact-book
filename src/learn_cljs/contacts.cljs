@@ -34,4 +34,9 @@
 (defn replace-contact [contact-list idx input]
   (assoc contact-list idx (make-contact input)))
 
+(def initial-state
+  {:contacts contact-list
+   :selected nil
+   :editing false})
+
 
