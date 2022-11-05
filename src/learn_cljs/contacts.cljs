@@ -5,6 +5,8 @@
             [goog.events :as gevents]
             [clojure.string :as str]))
 
+;; Models and State
+
 (def contact-list [])
 
 (defn make-address [address]
@@ -19,7 +21,6 @@
   (-> contact
       (select-keys [:first-name :last-name :email :address])
       (maybe-set-address)))
-
 
 (defn add-contact [contact-list input]
   (conj contact-list
@@ -39,4 +40,20 @@
    :selected nil
    :editing false})
 
+;; UI
 
+(def app-container (gdom/getElement "app"))
+
+(defn attach-event-handlers! [state])
+
+(defn set-app-html! [html-str]
+  (set! (.-innerHTML app-container) html-str))
+
+(defn render-app! [state]
+  (set-app-html! (hiccups/html [:div "Hello"])))
+
+(defn refresh! [state]
+  (render-app! state)
+  (attach-event-handlers! state))
+
+(refresh! initial-state)
