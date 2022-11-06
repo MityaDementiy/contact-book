@@ -57,3 +57,8 @@
   (attach-event-handlers! state))
 
 (refresh! initial-state)
+
+(defn format-name [contact]
+  (->> contact
+       ((juxt :first-name :last-name))
+       (str/join " ")))
