@@ -88,7 +88,47 @@
                     (fn [e] (on-open-contact e state)))))
 
 (defn render-app! [state]
-  (set-app-html! (hiccups/html [:div "Hello"])))
+  (set-app-html!
+   (hiccups/html
+    [:div {:class "app-main"}
+     [:div {:class "navbar has-shadow"}
+      [:div {:class "container"}
+       [:div {:class "navbar-brand"}
+        [:span {:class "navbar-item"}
+         "ClojureScript Contacts"]]]]
+     [:div {:class "columns"}
+      (render-contact-list state)
+      [:div {:class "contact-details column is-8"}
+       (section-header (:editing? state))
+       [:div {:class "hero is-fullheight"}
+        (if (:editing? state)
+          (render-contact-details (get-in state [:contacts (:selected state)] {}))
+          [:p {:class "notice"} "No contact selected"])]]]])))
+
+(defn form-field
+  ([id value label] (form-field id value label "text"))
+  ([id value label type]
+   [:div {:class "field"}
+    [:label {:class "label"} label]
+    [:div {:class "control"}
+     [:input {:id id
+              :value value
+              :type type
+              :class "input"}]]]))
+
+(defn render-contact-details [contact]
+  (let [address (get contact :address {})]
+    [:div {:id "contact-form" :class "contact-form"}
+     (form-field "input-first-name" (:first-name contact) "First Name")
+     (form-field "input-last-name" (:last-name contact) "Last Name")
+     (form-field "input-email" (:email contact) "Email" "email")
+     [:fieldset
+      [:legend "Address"]
+      (form-field "input-street" (:street address) "Street")
+      (form-field "input-city" (:city address) "City")
+      (form-field "input-state" (:state address) "State")
+      (form-field "input-postal" (:postal address) "Postal Code")
+      (form-field "input-country" (:country address) "Country")]]))
 
 (defn refresh! [state]
   (render-app! state)
