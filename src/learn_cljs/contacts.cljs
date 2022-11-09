@@ -69,13 +69,23 @@
      [:div {:class "level-right"}
       [:span {:class "mu mu-right"}]]]]])
 
+(defn render-contact-list [state]
+  (let [{:keys [:contacts :selected]} state]
+    [:div {:class "contact-list column is-4 hero is-fullheight"}
+     (map-indexed (fn [idx contact]
+                    (render-contact-list-item idx contact (= idx selected)))
+                  contacts)]))
+
 (defn on-open-contact [e state]
   (refresh!
    (let [idx (int (.. e -currentTarget -dataset -idx))]
      (assoc state :selected? idx
                   :editing? true))))
 
-(defn attach-event-handlers! [state])
+(defn attach-event-handlers! [state]
+  (doseq [elem (array-seq (gdom/getElementByClass "contact-summary"))]
+    (gevents/listen elem "click"
+                    (fn [e] (on-open-contact e state)))))
 
 (defn render-app! [state]
   (set-app-html! (hiccups/html [:div "Hello"])))
