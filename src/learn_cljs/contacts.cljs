@@ -130,6 +130,31 @@
       (form-field "input-postal" (:postal address) "Postal Code")
       (form-field "input-country" (:country address) "Country")]]))
 
+(defn get-field-value [id]
+  (let [value (.-value (gdom/getElement id))]
+    (when (not (empty? value)) value)))
+
+(defn get-contact-form-data []
+  {:first-name (get-field-value "input-first-name")
+   :last-name (get-field-value "input-last-name")
+   :email (get-field-value "input-email")
+   :address {:street (get-field-value "input-street")
+             :city (get-field-value "input-city")
+             :state (get-field-value "input-state")
+             :postal (get-field-value "input-postal")
+             :country (get-field-value "input-country")}})
+
+(defn on-save-contact [state]
+  (refresh!
+   (let [contact (get-contact-form-data)
+         idx (:selected state)
+         state (dissoc state :selected :editing?)]
+     (if idx
+       (update state :contacts
+               replace-contact idx contact)
+       (update state :contacts
+               add-contact contact)))))
+
 (defn refresh! [state]
   (render-app! state)
   (attach-event-handlers! state))
