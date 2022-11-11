@@ -19,7 +19,7 @@
 
 (defn make-contact [contact]
   (-> contact
-      (select-keys [:first-name :last-name :email :address])
+      (select-keys [:first-name :last-name :email :address :phone])
       (maybe-set-address)))
 
 (defn add-contact [contact-list input]
@@ -93,7 +93,7 @@
 (defn render-contact-list [state]
   (let [contacts (:contacts state)
         selected (:selected state)]
-    [:div {:class "contact-list column is-4 hero is-fullheight"}
+    [:div {:class "contact-list column is-4 hero"}
      (map-indexed (fn [idx contact]
                     (render-contact-list-item idx contact (= idx selected)))
                   contacts)]))
@@ -119,6 +119,7 @@
      (form-field "input-first-name" (:first-name contact) "First Name")
      (form-field "input-last-name" (:last-name contact) "Last Name")
      (form-field "input-email" (:email contact) "Email" "email")
+     (form-field "input-phone" (:phone contact) "Phone" "phone")
      [:fieldset
       [:legend "Address"]
       (form-field "input-street" (:street address) "Street")
@@ -135,6 +136,7 @@
   {:first-name (get-field-value "input-first-name")
    :last-name (get-field-value "input-last-name")
    :email (get-field-value "input-email")
+   :phone (get-field-value "input-phone")
    :address {:street (get-field-value "input-street")
              :city (get-field-value "input-city")
              :state (get-field-value "input-state")
@@ -205,7 +207,7 @@
       (render-contact-list state)
       [:div {:class "contact-details column is-8"}
        (section-header (:editing? state))
-       [:div {:class "hero is-fullheight"}
+       [:div {:class "hero is-full-height"}
         (if (:editing? state)
           (render-contact-details (get-in state [:contacts (:selected state)] {}))
           no-contact-details)]]]])))
